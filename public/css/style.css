@@ -113,6 +113,21 @@ body {
   margin: 0 !important;
 }
 
+#filters .active-filter {
+    
+    color: black; 
+    border-bottom: 2px solid black; 
+    opacity: 1;
+}
+
+#filters .filter:hover {
+    opacity: 0.7;
+    cursor: pointer;
+}
+#filters a{
+  text-decoration: none;
+  color: black;
+}
 /* tax  */
 .tax-info {
   font-size: 0.9rem;
@@ -145,20 +160,29 @@ body {
   text-decoration: underline;
   color: #222222;
 }
-/* .f-info-links{
-    width: 100%;
-} */
+
 .f-info-socials {
   font-size: 2rem;
 }
+.f-info-socials a{
+  color: #222222;
+}
 .f-info {
-  height: 8rem;
+  height: 8.5rem;
   background-color: #ebebeb;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+}
+.heart-footer{
+  display: flex;
+  align-items: center;
+  margin: 0 !important;
+}
+.heart{
+  color: red; 
+  font-size: 1.5em;
 }
 
 /* cards */

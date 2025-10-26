@@ -3,6 +3,18 @@ const Schema = mongoose.Schema;
 const Review = require("./review.js");
 const { string } = require("joi");
 
+const categories = [
+  "Trending",
+  "Rooms",
+  "Iconic Cities",
+  "Mountains",
+  "Castles",
+  "Amazing Pools",
+  "Camping",
+  "Farms",
+  "Arctic",
+  "Desert",
+];
 const listingSchema = new Schema({
   title: {
     type: String,
@@ -16,6 +28,11 @@ const listingSchema = new Schema({
   price: Number,
   location: String,
   country: String,
+  category: {
+    type: String,
+    enum: categories, 
+    required: true
+  },
   reviews: [
     {
       type: Schema.Types.ObjectId,
@@ -36,6 +53,7 @@ const listingSchema = new Schema({
       type: [Number],
       required: true
     }
+
   }
 });
 
@@ -46,4 +64,4 @@ listingSchema.post("findOneAndDelete", async (listing) => {
 });
 
 const Listing = mongoose.model("Listing", listingSchema);
-module.exports = Listing;
+module.exports = { Listing, categories };

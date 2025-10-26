@@ -42,6 +42,22 @@
           required
         />
       </div>
+      <div class="mb-3">
+        <label for="category" class="form-label mb-0">Category</label>
+        <select
+          name="listing[category]"
+          id="category"
+          class="form-select"
+          required
+        >
+          <option value="" disabled selected>Select a Category</option>
+          <% if (typeof categories !== 'undefined') { %> <%
+          categories.forEach(cat => { %>
+          <option value="<%= cat %>"><%= cat %></option>
+          <% }); %> <% } %>
+        </select>
+        <div class="invalid-feedback">Please select a category!</div>
+      </div>
       <div class="row">
         <div class="mb-3 col-md-4">
           <label for="price" class="form-label mb-0">Price</label>

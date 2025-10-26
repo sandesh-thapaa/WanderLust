@@ -2,50 +2,85 @@
 
 <div class="filter-container">
   <div id="filters">
-    <div class="filter">
+    <a
+      href="/filter?category=<%= encodeURIComponent('Trending') %>"
+      class="filter <%= typeof category !== 'undefined' && category === 'Trending' ? 'active-filter' : '' %>"
+    >
       <div><i class="fa-solid fa-fire"></i></div>
       <p>Trending</p>
-    </div>
-    <div class="filter">
+    </a>
+
+    <a
+      href="/filter?category=<%= encodeURIComponent('Rooms') %>"
+      class="filter <%= typeof category !== 'undefined' && category === 'Rooms' ? 'active-filter' : '' %>"
+    >
       <div><i class="fa-solid fa-bed"></i></div>
       <p>Rooms</p>
-    </div>
-    <div class="filter">
+    </a>
+
+    <a
+      href="/filter?category=<%= encodeURIComponent('Iconic Cities') %>"
+      class="filter <%= typeof category !== 'undefined' && category === 'Iconic Cities' ? 'active-filter' : '' %>"
+    >
       <div><i class="fa-solid fa-mountain-city"></i></div>
       <p>Iconic Cities</p>
-    </div>
-    <div class="filter">
+    </a>
+
+    <a
+      href="/filter?category=<%= encodeURIComponent('Mountains') %>"
+      class="filter <%= typeof category !== 'undefined' && category === 'Mountains' ? 'active-filter' : '' %>"
+    >
       <div><i class="fa-solid fa-mountain"></i></div>
       <p>Mountains</p>
-    </div>
-    <div class="filter">
+    </a>
+
+    <a
+      href="/filter?category=<%= encodeURIComponent('Castles') %>"
+      class="filter <%= typeof category !== 'undefined' && category === 'Castles' ? 'active-filter' : '' %>"
+    >
       <div><i class="fa-brands fa-fort-awesome"></i></div>
       <p>Castles</p>
-    </div>
-    <div class="filter">
+    </a>
+
+    <a
+      href="/filter?category=<%= encodeURIComponent('Amazing Pools') %>"
+      class="filter <%= typeof category !== 'undefined' && category === 'Amazing Pools' ? 'active-filter' : '' %>"
+    >
       <div><i class="fa-solid fa-person-swimming"></i></div>
       <p>Amazing Pools</p>
-    </div>
-    <div class="filter">
+    </a>
+
+    <a
+      href="/filter?category=<%= encodeURIComponent('Camping') %>"
+      class="filter <%= typeof category !== 'undefined' && category === 'Camping' ? 'active-filter' : '' %>"
+    >
       <div><i class="fa-solid fa-campground"></i></div>
       <p>Camping</p>
-    </div>
-    <div class="filter">
+    </a>
+
+    <a
+      href="/filter?category=<%= encodeURIComponent('Farms') %>"
+      class="filter <%= typeof category !== 'undefined' && category === 'Farms' ? 'active-filter' : '' %>"
+    >
       <div><i class="fa-solid fa-cow"></i></div>
       <p>Farms</p>
-    </div>
-    <div class="filter">
+    </a>
+
+    <a
+      href="/filter?category=<%= encodeURIComponent('Arctic') %>"
+      class="filter <%= typeof category !== 'undefined' && category === 'Arctic' ? 'active-filter' : '' %>"
+    >
       <div><i class="fa-solid fa-snowflake"></i></div>
       <p>Arctic</p>
-    </div>
-    <div class="filter">
+    </a>
+
+    <a
+      href="/filter?category=<%= encodeURIComponent('Domes') %>"
+      class="filter <%= typeof category !== 'undefined' && category === 'Domes' ? 'active-filter' : '' %>"
+    >
       <div><i class="fa-solid fa-igloo"></i></div>
       <p>Domes</p>
-    </div>
-    <!-- <div class="filter">
-      <div><i class="fa-solid fa-ship"></i></div>
-      <p>Boats</p>
-    </div> -->
+    </a>
   </div>
   <div class="tax-toggle">
     <div class="form-check-reverse form-switch">
@@ -54,8 +89,8 @@
         type="checkbox"
         role="switch"
         id="switchCheckDefault"
-        />
-        <label class="form-check-label" for="switchCheckDefault"
+      />
+      <label class="form-check-label" for="switchCheckDefault"
         >Display after taxes</label
       >
     </div>

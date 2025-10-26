@@ -2,15 +2,35 @@ const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
 // const fetch = require("node-fetch");
-const Listing = require("../models/listing.js");
+const { Listing, categories } = require("../models/listing.js");
 
 module.exports.index = async (req, res) => {
-  const allListings = await Listing.find({});
-  res.render("listings/index.ejs", { allListings });
+  let { q, category } = req.query;
+
+  let query = {};
+  let allListings;
+
+  if (q) {
+    allListings = [];
+    category = undefined;
+  } else if (category) {
+    query.category = category;
+    allListings = await Listing.find(query);
+    q = undefined;
+  } else {
+    allListings = await Listing.find({});
+    q = undefined;
+    category = undefined;
+  }
+  res.render("listings/index.ejs", {
+    allListings,
+    q: q,
+    category: category,
+  });
 };
 
 module.exports.renderNewForm = (req, res) => {
-  res.render("listings/new.ejs");
+  res.render("listings/new.ejs", { categories });
 };
 
 module.exports.showListing = async (req, res) => {
@@ -125,4 +145,54 @@ module.exports.destroyListing = async (req, res) => {
   console.log(deletedListing);
   req.flash("success", "Listing Deleted!");
   res.redirect("/");
+};
+
+module.exports.searchListing = async (req, res) => {
+  let { q } = req.query;
+
+  if (!q || q.trim() === "") {
+    req.flash("error", "Please enter a destination to search.");
+    return res.redirect("/");
+  }
+  const searchTerm = new RegExp(q.trim(), "i");
+  let listings = await Listing.find({
+    $or: [
+      { title: { $regex: searchTerm } },
+      { location: { $regex: searchTerm } },
+      { country: { $regex: searchTerm } },
+    ],
+  });
+  if (listings.length === 0) {
+    req.flash("error", `No listings found matching "${q}".`);
+    // return res.redirect(`/?q=${encodeURIComponent(q)}`);
+    res.redirect("/")
+  } else {
+    res.render("listings/index.ejs", {
+      allListings: listings,
+      q,
+      category: undefined,
+      pageTitle: `Search Results for "${q}"`,
+    });
+  }
+};
+
+module.exports.filterByCategory = async (req, res) => {
+  let { category } = req.query;
+
+  if (!category) {
+    req.flash("error", "Invalid category selected.");
+    return res.redirect("/");
+  }
+  const listings = await Listing.find({ category: category });
+
+  if (listings.length === 0) {
+    req.flash("error", `No listings found in the "${category}" category.`);
+    return res.redirect(`/?category=${encodeURIComponent(category)}`);
+  } else {
+    res.render("listings/index.ejs", {
+      allListings: listings,
+      q: undefined,
+      category,
+    });
+  }
 };
