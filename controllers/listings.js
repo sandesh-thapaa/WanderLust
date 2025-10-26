@@ -1,5 +1,5 @@
-
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+const fetch = (...args) =>
+  import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
 // const fetch = require("node-fetch");
 const Listing = require("../models/listing.js");
@@ -32,32 +32,56 @@ module.exports.showListing = async (req, res) => {
 };
 
 module.exports.createListing = async (req, res) => {
-  // let {title, description, image, price, country, location} = req.body;
   const { location } = req.body.listing;
-  const geoRes = await fetch(
-    `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
-      location
-    )}`
-  );
-  const geoData = await geoRes.json();
 
-  if (!geoData || geoData.length === 0) {
-    req.flash("error", "Address not found!");
-    return res.redirect("/new");
+  try {
+    const geoRes = await fetch(
+      `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+        location
+      )}`
+    );
+
+    // Check if response is JSON
+    const contentType = geoRes.headers.get("content-type");
+    if (!contentType || !contentType.includes("application/json")) {
+      req.flash(
+        "error",
+        "Geocoding service unavailable. Please try again later."
+      );
+      return res.redirect("/new");
+    }
+
+    const geoData = await geoRes.json();
+
+    if (!geoData || geoData.length === 0) {
+      req.flash("error", "Address not found!");
+      return res.redirect("/new");
+    }
+
+    const lat = parseFloat(geoData[0].lat);
+    const lon = parseFloat(geoData[0].lon);
+
+    let url = req.file ? req.file.path : "";
+    let filename = req.file ? req.file.filename : "";
+
+    const newListing = new Listing(req.body.listing);
+    newListing.owner = req.user._id;
+    if (url && filename) {
+      newListing.image = { url, filename };
+    }
+    newListing.geometry = { type: "Point", coordinates: [lon, lat] };
+
+    await newListing.save();
+    req.flash("success", "New Listing Created!");
+    res.redirect(`/${newListing._id}`);
+  } catch (err) {
+    console.log(err);
+    req.flash(
+      "error",
+      "An error occurred while creating the listing. Please try again."
+    );
+    res.redirect("/new");
   }
-
-  const lat = parseFloat(geoData[0].lat);
-  const lon = parseFloat(geoData[0].lon);
-
-  let url = req.file.path;
-  let filename = req.file.filename;
-  const newListing = new Listing(req.body.listing);
-  newListing.owner = req.user._id;
-  newListing.image = { url, filename };
-  newListing.geometry = { type: "Point", coordinates: [lon, lat] };
-  await newListing.save();
-  req.flash("success", "New Listing Created!");
-  res.redirect(`/${newListing._id}`);
 };
 
 module.exports.renderEditForm = async (req, res) => {

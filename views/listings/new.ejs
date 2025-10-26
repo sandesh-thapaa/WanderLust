@@ -1,9 +1,15 @@
 <% layout("/layouts/boilerplate") %>
 <div class="row">
   <div class="col-8 offset-2 body">
-    <br><br>
+    <br /><br />
     <h3>Create a New Listing</h3>
-    <form method="POST" action="/" novalidate class="needs-validation" enctype="multipart/form-data">
+    <form
+      method="POST"
+      action="/"
+      novalidate
+      class="needs-validation"
+      enctype="multipart/form-data"
+    >
       <div class="mb-3">
         <label for="title" class="form-label mb-0">Title</label>
         <input
@@ -26,7 +32,6 @@
           required
         ></textarea>
         <div class="invalid-feedback">Description is required!</div>
-
       </div>
       <div class="mb-3">
         <label for="image" class="form-label mb-0">Upload image</label>
