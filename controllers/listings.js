@@ -35,13 +35,12 @@ module.exports.createListing = async (req, res) => {
   const { location } = req.body.listing;
 
   try {
+    await new Promise(resolve => setTimeout(resolve, 1200));
+
     const geoRes = await fetch(
-      `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
-        location
-      )}`
+      `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(location)}`
     );
 
-    // Check if response is JSON
     const contentType = geoRes.headers.get("content-type");
     if (!contentType || !contentType.includes("application/json")) {
       req.flash(
@@ -83,6 +82,7 @@ module.exports.createListing = async (req, res) => {
     res.redirect("/new");
   }
 };
+
 
 module.exports.renderEditForm = async (req, res) => {
   let { id } = req.params;
