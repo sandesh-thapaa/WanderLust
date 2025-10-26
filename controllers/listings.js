@@ -35,14 +35,17 @@ module.exports.createListing = async (req, res) => {
   const { location } = req.body.listing;
 
   try {
-    await new Promise(resolve => setTimeout(resolve, 1200));
-
+    // Use Geoapify API for geocoding
     const geoRes = await fetch(
-      `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(location)}`
+      `https://api.geoapify.com/v1/geocode/search?text=${encodeURIComponent(
+        location
+      )}&apiKey=${process.env.GEO_API_KEY}`
     );
 
+    // Check if Geoapify responded correctly
     const contentType = geoRes.headers.get("content-type");
     if (!contentType || !contentType.includes("application/json")) {
+      console.error("❌ Geoapify did not return JSON");
       req.flash(
         "error",
         "Geocoding service unavailable. Please try again later."
@@ -52,29 +55,34 @@ module.exports.createListing = async (req, res) => {
 
     const geoData = await geoRes.json();
 
-    if (!geoData || geoData.length === 0) {
+    // Validate response data
+    if (!geoData.features || geoData.features.length === 0) {
       req.flash("error", "Address not found!");
       return res.redirect("/new");
     }
 
-    const lat = parseFloat(geoData[0].lat);
-    const lon = parseFloat(geoData[0].lon);
+    // Extract coordinates
+    const lat = geoData.features[0].geometry.coordinates[1];
+    const lon = geoData.features[0].geometry.coordinates[0];
 
+    // Handle image upload
     let url = req.file ? req.file.path : "";
     let filename = req.file ? req.file.filename : "";
 
     const newListing = new Listing(req.body.listing);
     newListing.owner = req.user._id;
+
     if (url && filename) {
       newListing.image = { url, filename };
     }
+
     newListing.geometry = { type: "Point", coordinates: [lon, lat] };
 
     await newListing.save();
     req.flash("success", "New Listing Created!");
     res.redirect(`/${newListing._id}`);
   } catch (err) {
-    console.log(err);
+    console.error("❌ Error creating listing:", err);
     req.flash(
       "error",
       "An error occurred while creating the listing. Please try again."
@@ -82,7 +90,6 @@ module.exports.createListing = async (req, res) => {
     res.redirect("/new");
   }
 };
-
 
 module.exports.renderEditForm = async (req, res) => {
   let { id } = req.params;

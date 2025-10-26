@@ -226,17 +226,14 @@ body {
 
 .flash-container {
   display: flex;
-  justify-content: flex-end;
-}
-.flash-error {
-  font-size: 0.8rem;
-  width: 100% !important;
+  justify-content: center;
+  margin-top: 0.2rem !important;
 }
 
-  .review-body{
-    margin-left: 1rem !important;
-    margin-bottom: 1rem !important ;
-  }
+.review-body {
+  margin-left: 1rem !important;
+  margin-bottom: 1rem !important ;
+}
 
 @media (max-width: 768px) {
   .flash-container {
@@ -250,15 +247,15 @@ body {
   }
 
   .filter {
-    font-size: 0.8rem; 
+    font-size: 0.8rem;
   }
 
   .filter p {
-    font-size: 0.7rem; 
+    font-size: 0.7rem;
   }
 
   .filter i {
-    font-size: 1rem; 
+    font-size: 1rem;
   }
   body {
     margin: 0.5rem !important;
@@ -308,48 +305,51 @@ body {
     padding: 0.5rem !important;
     font-size: 0.7rem !important;
   }
-  .nav-link{
+  .nav-link {
     margin: 0rem !important;
     padding: 0.2rem !important;
     font-size: 0.8rem !important;
   }
-  .signup-login{
+  .signup-login {
     display: flex !important;
     margin: 0 !important;
     justify-content: center !important;
   }
-  .title{
+  .title {
     margin-left: 0 !important;
     width: 100% !important;
   }
-  .body{
+  .body {
     margin-left: 0 !important;
     width: 100% !important;
   }
-  .signup-login-btn{
+  .signup-login-btn {
     width: 100% !important;
   }
-  .add-btn{
+  .add-btn {
     width: 100% !important;
   }
-  .listing-card{
+  .listing-card {
     margin-bottom: 0 !important;
   }
-  .btn-edit{
+  .btn-edit {
     margin-left: 0 !important;
     width: 20% !important;
   }
-  .listing-card{
+  .listing-card {
     margin-top: 0.5rem !important;
   }
+  .flash-error {
+  font-size: 0.8rem;
+  width: 100% !important;
+}
 }
 
 @media (max-width: 1200px) {
   .tax-toggle {
     display: none;
   }
-  #filters{
+  #filters {
     margin: auto !important;
   }
-  
 }
