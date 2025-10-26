@@ -1,10 +1,10 @@
 <% layout("/layouts/boilerplate") %>
 
-<div class="row mt-3">
-  <div class="col-8 offset-3">
+<div class="row mt-3 body">
+  <div class="col-8 offset-3 body">
     <h3><%= listing.title %></h3>
   </div>
-  <div class="card col-6 offset-3 show-card listing-card">
+  <div class="card col-6 offset-3 show-card listing-card body">
     <img
       src="<%= listing.image.url %>"
       class="card-img-top show-img"
@@ -27,22 +27,22 @@
 <% if( currUser && currUser._id.equals(listing.owner._id)){ %>
 <div class="btns mb-3">
   <a
-    href="/listings/<%= listing._id %>/edit"
-    class="btn btn-dark col-1 offset-3"
+    href="/<%= listing._id %>/edit"
+    class="btn btn-dark col-1 offset-3 btn-edit"
     >Edit</a
   >
-  <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE">
+  <form method="POST" action="/<%= listing._id %>?_method=DELETE">
     <button class="btn btn-dark offset-5 edit-btn">Delete</button>
   </form>
 </div>
 <% } %>
 
-<div class="col-6 offset-3 mb-3">
+<div class="col-6 offset-3 mb-3 body">
   <hr />
   <% if(currUser){ %>
   <h4>Leave a Review</h4>
   <form
-    action="/listings/<%= listing._id %>/reviews"
+    action="/<%= listing._id %>/reviews"
     method="POST"
     novalidate
     class="needs-validation"
@@ -89,16 +89,16 @@
   <% } %> <% if(listing.reviews.length > 0) { %>
   <p><b>All Reviews</b></p>
   <% } %>
-  <div class="row">
+  <div class="row body">
     <% for(review of listing.reviews){ %>
-    <div class="card col-5 ms-3 mb-3">
+    <div class="card col-5  body review-body">
       <div class="card-body">
         <h5 class="card-title">@<%= review.author.username %></h5>
         <p class="starability-result" data-rating="<%= review.rating %>"></p>
         <p class="card-text"><%= review.comment %></p>
       </div>
       <form
-        action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
+        action="/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
         method="POST"
         class="mb-3 mt-3"
       >
@@ -110,7 +110,7 @@
     <% } %>
   </div>
 </div>
-<div class="col-6 offset-3 mb-3">
+<div class="col-6 offset-3 mb-3 body">
   <h3>Where you'll be</h3>
   <div id="map"></div>
 </div>

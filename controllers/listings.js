@@ -25,7 +25,7 @@ module.exports.showListing = async (req, res) => {
     .populate("owner");
   if (!listing) {
     req.flash("error", "Listing not found!");
-    res.redirect("/listings");
+    res.redirect("/");
   } else {
     res.render("listings/show.ejs", { listing });
   }
@@ -43,7 +43,7 @@ module.exports.createListing = async (req, res) => {
 
   if (!geoData || geoData.length === 0) {
     req.flash("error", "Address not found!");
-    return res.redirect("/listings/new");
+    return res.redirect("/new");
   }
 
   const lat = parseFloat(geoData[0].lat);
@@ -57,7 +57,7 @@ module.exports.createListing = async (req, res) => {
   newListing.geometry = { type: "Point", coordinates: [lon, lat] };
   await newListing.save();
   req.flash("success", "New Listing Created!");
-  res.redirect(`/listings/${newListing._id}`);
+  res.redirect(`/${newListing._id}`);
 };
 
 module.exports.renderEditForm = async (req, res) => {
@@ -65,7 +65,7 @@ module.exports.renderEditForm = async (req, res) => {
   const listing = await Listing.findById(id);
   if (!listing) {
     req.flash("error", "Listing not found!");
-    res.redirect("/listings");
+    res.redirect("/");
   } else {
     let originalImageUrl = listing.image.url;
     originalImageUrl = originalImageUrl.replace("/upload", "/upload/w_250");
@@ -85,7 +85,7 @@ module.exports.updateListing = async (req, res) => {
     await listing.save();
   }
   req.flash("success", "Listing Updated!");
-  res.redirect(`/listings/${id}`);
+  res.redirect(`/${id}`);
 };
 
 module.exports.destroyListing = async (req, res) => {
@@ -93,5 +93,5 @@ module.exports.destroyListing = async (req, res) => {
   let deletedListing = await Listing.findByIdAndDelete(id);
   console.log(deletedListing);
   req.flash("success", "Listing Deleted!");
-  res.redirect("/listings");
+  res.redirect("/");
 };

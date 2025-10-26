@@ -6,16 +6,18 @@ const ExpressError = require("./utils/ExpressError.js");
 
 module.exports.isLoggedIn = (req, res, next) => {
   if (!req.isAuthenticated()) {
-    req.session.redirectUrl = req.originalUrl;
-    req.flash("error", "You must be logged in to create listing!");
+    if (!["/login", "/signup"].includes(req.originalUrl)) {
+      req.session.redirectUrl = req.originalUrl;
+    }
+    req.flash("error", "You must be logged in to create a listing!");
     return res.redirect("/login");
-  } else {
-    next();
   }
+  next();
 };
 
+
 module.exports.saveRedirectUrl = (req, res, next) => {
-  if (req.session.redirectUrl) {
+  if (req.session.redirectUrl) {  
     res.locals.redirectUrl = req.session.redirectUrl;
   }
   next();

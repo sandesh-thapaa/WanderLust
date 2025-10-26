@@ -6,7 +6,7 @@
     <h3>Edit your Listing</h3>
     <form
       method="POST"
-      action="/listings/<%= listing._id %>?_method=PUT"
+      action="/<%= listing._id %>?_method=PUT"
       novalidate
       class="needs-validation"
       enctype="multipart/form-data"
@@ -30,9 +30,7 @@
           class="form-control"
           name="listing[description]"
           required
-        >
-        <%= listing.description %></textarea
-        >
+        ><%= listing.description %></textarea>
         <div class="invalid-feedback">Description is required!</div>
       </div>
 
