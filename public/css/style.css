@@ -302,7 +302,7 @@ body {
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     padding: 0.5rem 0.5rem;
-    width: 200px;
+    width: 92%;
   }
 
   .navbar-nav {
@@ -322,17 +322,18 @@ body {
   .search-text {
     display: none;
   }
-  .search-btn {
+   /* .search-btn {
     padding: 0.5rem !important;
-  }
+  } */
   .search-input {
-    padding: 0.5rem !important;
-    font-size: 0.7rem !important;
-  }
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+    font-size: 1rem !important;
+  } */
   .nav-link {
     margin: 0rem !important;
     padding: 0.2rem !important;
-    font-size: 0.8rem !important;
+    font-size: 1rem !important;
   }
   .signup-login {
     display: flex !important;
